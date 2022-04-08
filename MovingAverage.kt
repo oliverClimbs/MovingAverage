@@ -1,13 +1,8 @@
-package com.oliverClimbs.climbersAssistant.data
-
-import com.oliverClimbs.climbersAssistant.updown.TimedEntry
-import com.oliverClimbs.climbersAssistant.util.Helpers.Companion.metersPerMinute
-import com.oliverClimbs.climbersAssistant.util.Helpers.Companion.metersToFeet
-import java.time.Duration
-import java.time.Duration.*
-
 class MovingAverage(var maxDuration: Duration)
 {
+  data class TimedEntry(val time: Instant = now(), val value: Double = 0.0)
+  const val FeetInMeters = 3.28084
+
   private var values: MutableList<TimedEntry> = mutableListOf()
 
   var duration: Duration = ZERO
@@ -56,11 +51,20 @@ class MovingAverage(var maxDuration: Duration)
   fun average(): Double = if (count != 0) sum / count else 0.0
 
   // ---------------------------------------------------------------------------------------------
-  fun metersPerMinute(): Double =
-    metersPerMinute(values.last().value - values.first().value,
-                    between(values.first().time, values.last().time))
+  fun metersPerMinute(meters: Double, duration: Duration): Double
+  {
+    var speed = meters * 60000 / duration.toMillis()
+
+    if (speed == NEGATIVE_INFINITY || speed.isNaN()) speed = 0.0
+
+    return speed
+
+  }
 
   // ---------------------------------------------------------------------------------------------
   fun feetPerMinute(): Double = metersToFeet(metersPerMinute())
+
+  // ---------------------------------------------------------------------------------------------
+  fun metersToFeet(meters: Double): Double = meters * FeetInMeters
 
 }
