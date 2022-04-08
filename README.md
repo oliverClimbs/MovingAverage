@@ -1,2 +1,2 @@
 # Moving Average Class
-Calculate time-based moving average.
+A simple class that alculates time-based moving average.
