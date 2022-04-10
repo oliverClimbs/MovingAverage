@@ -9,7 +9,7 @@ class Helpers
     fun metersPerHour(meters: Double, duration: Duration): Double
     {
       var speed = meters * 3600000 / duration.toMillis()
-      if (speed == NEGATIVE_INFINITY || speed.isNaN()) speed = 0.0
+      if (speed == NEGATIVE_INFINITY || speed == POSITIVE_INFINITY || speed.isNaN()) speed = 0.0
       return speed
 
     }
@@ -17,7 +17,7 @@ class Helpers
     fun metersPerMinute(meters: Double, duration: Duration): Double
     {
       var speed = meters * 60000 / duration.toMillis()
-      if (speed == NEGATIVE_INFINITY || speed.isNaN()) speed = 0.0
+      if (speed == NEGATIVE_INFINITY || speed == POSITIVE_INFINITY || speed.isNaN()) speed = 0.0
       return speed
 
     }
